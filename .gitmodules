@@ -1,3 +1,6 @@
 [submodule "lua"]
 	path = lua
 	url = git@github.com:pierrefourgeaud/lua.git
+[submodule "Dependencies/lua"]
+	path = Dependencies/lua
+	url = git@github.com:pierrefourgeaud/lua.git
