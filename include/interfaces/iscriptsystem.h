@@ -1,0 +1,8 @@
+#ifndef CPPLUA_INTERFACES_ISCRIPTSYSTEM_H
+#define CPPLUA_INTERFACES_ISCRIPTSYSTEM_H
+
+namespace CppLua
+{
+} // namespace CppLua
+
+#endif // !CPPLUA_INTERFACES_ISCRIPTSYSTEM_H
