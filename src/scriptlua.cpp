@@ -42,6 +42,12 @@ ScriptLua::ExecuteBuffer( const char* iBuffer )
 	return true;
 }
 
+lua_State*
+ScriptLua::GetState() const
+{
+	return m_pState;
+}
+
 // Private
 bool
 ScriptLua::_Initialize()

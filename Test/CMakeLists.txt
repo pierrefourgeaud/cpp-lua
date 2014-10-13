@@ -21,4 +21,4 @@ add_executable(
 )
 
 add_dependencies( SimpleTest CppLua )
-target_link_libraries( SimpleTest CppLua.lib )
+target_link_libraries( SimpleTest CppLua )

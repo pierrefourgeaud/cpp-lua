@@ -1,8 +1,8 @@
 #ifndef CPPLUA_SCRIPTLUA_H
 #define CPPLUA_SCRIPTLUA_H
 
-#include <interfaces/iscriptsystem.h>
-#include <cpplualib.h>
+#include "interfaces/iscriptsystem.h"
+#include "cpplualib.h"
 
 extern "C"
 {
@@ -21,6 +21,8 @@ public:
 	bool ExecuteFile( const char* iFileName );
 	bool ExecuteBuffer( const char* iBuffer );
 
+	lua_State* GetState() const;
+
 private:
 	lua_State*    m_pState;
 
@@ -32,4 +34,3 @@ private:
 } // namespace CppLua
 
 #endif // !CPPLUA_SCRIPTLUA_H
-

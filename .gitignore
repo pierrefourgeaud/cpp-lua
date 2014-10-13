@@ -16,3 +16,4 @@
 build*
 Bin
 Lib
+.DS_Store

@@ -1,7 +1,7 @@
 #ifndef CPPLUA_INTERFACES_ISCRIPTSYSTEM_H
 #define CPPLUA_INTERFACES_ISCRIPTSYSTEM_H
 
-#include <cpplualib.h>
+#include "../cpplualib.h"
 
 namespace CppLua
 {
@@ -23,4 +23,3 @@ public:
 } // namespace CppLua
 
 #endif // !CPPLUA_INTERFACES_ISCRIPTSYSTEM_H
-
