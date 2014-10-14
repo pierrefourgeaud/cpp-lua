@@ -22,11 +22,16 @@ struct ArgList
 template <class Head, class Tail, int StartValue>
 struct ArgList <TypeList <Head, Tail>, StartValue>
 {
-	Head           m_Head;
-	ArgList <Tail> m_Tail;
+	Head                         m_Head;
+	ArgList <Tail, StartValue+1> m_Tail;
+
+	ArgList(const Head& iHead, const ArgList<Tail, StartValue>& iTail)
+		: m_Head(iHead)
+		, m_Tail(iTail)
+	{}
 
 	ArgList(lua_State* iL)
-		: m_Head(LuaStack<Head>::Get(iL))
+		: m_Head(LuaStack<Head>::Get(iL, StartValue))
 		, m_Tail(ArgList<Tail, StartValue + 1>(iL))
 	{}
 };

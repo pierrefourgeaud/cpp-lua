@@ -18,7 +18,7 @@ struct MethodInvoker <RetT (ObjT::*) (), MethPtr>
 	typedef RetT ReturnType;
 	typedef void Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments>)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2>)
 	{
 		return (iObj->*iMethPtr)();
 	}
@@ -30,7 +30,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1), MethPtr>
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(iArgs.m_Head);
 	}
@@ -42,7 +42,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2), MethPtr>
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(iArgs.m_Head, iArgs.m_Tail.m_Head);
 	}
@@ -54,7 +54,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2, ARG3), MethPtr>
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2, TypeList<ARG3>>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(iArgs.m_Head, iArgs.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Head);
 	}
@@ -66,7 +66,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2, ARG3, ARG4), MethPtr>
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2, TypeList<ARG3, TypeList<ARG4>>>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(
 			iArgs.m_Head, iArgs.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Tail.m_Head);
@@ -79,7 +79,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2, ARG3, ARG4, ARG5), MethPtr>
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2, TypeList<ARG3, TypeList<ARG4, TypeList<ARG5>>>>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(
 			iArgs.m_Head, iArgs.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Tail.m_Head,
@@ -93,7 +93,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2, ARG3, ARG4, ARG5, ARG6), MethP
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2, TypeList<ARG3, TypeList<ARG4, TypeList<ARG5, TypeList<ARG6>>>>>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(
 			iArgs.m_Head, iArgs.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Tail.m_Head,
@@ -107,7 +107,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7),
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2, TypeList<ARG3, TypeList<ARG4, TypeList<ARG5, TypeList<ARG6, TypeList<ARG7>>>>>>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(
 			iArgs.m_Head, iArgs.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Tail.m_Head,
@@ -122,7 +122,7 @@ struct MethodInvoker <RetT (ObjT::*) (ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7, 
 	typedef RetT ReturnType;
 	typedef TypeList<ARG1, TypeList<ARG2, TypeList<ARG3, TypeList<ARG4, TypeList<ARG5, TypeList<ARG6, TypeList<ARG7, TypeList<ARG8>>>>>>>> Arguments;
 
-	static ReturnType Call(ObjT iObj, MethPtr iMethPtr, ArgList<Arguments> iArgs)
+	static ReturnType Call(ObjT* iObj, MethPtr iMethPtr, ArgList<Arguments, 2> iArgs)
 	{
 		return (iObj->*iMethPtr)(
 			iArgs.m_Head, iArgs.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Head, iArgs.m_Tail.m_Tail.m_Tail.m_Head,

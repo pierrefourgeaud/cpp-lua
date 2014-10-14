@@ -36,12 +36,28 @@ public:
 	{
 		const FullUserData<T>* userData = 
 			new (lua_newuserdata(iL, sizeof(FullUserData<T>))) FullUserData<T>();
+		lua_rawgetp(iL, LUA_REGISTRYINDEX, Class<T>::GetIdentityKey());
+		lua_setmetatable(iL, -2);
 		return userData->GetMemoryPtr();
 	}
 
 	void* GetMemoryPtr() const
 	{
 		return m_Ptr;
+	}
+
+	static FullUserData* Get(lua_State* iL, int iIndex)
+	{
+		FullUserData* data = 0;
+		// Make sure we have a userdata.
+		if (lua_isuserdata(iL, iIndex))
+		{
+			// Recursive with parent ?
+			// Add some security
+			data = static_cast<FullUserData*>(lua_touserdata(iL, iIndex));
+		}
+
+		return data;
 	}
 
 private:
@@ -66,6 +82,12 @@ template <class T>
 class CPPLUA_API Class
 {
 public:
+	static const void* GetIdentityKey()
+	{
+		static char key;
+		return &key;
+	}
+
 	Class(ScriptLua* iScriptLua, const std::string& iName)
 		: m_pScriptLua(iScriptLua)
 		, m_Name(iName)
@@ -96,6 +118,9 @@ public:
 	template <class MethPtr>
 	Class& Method(const std::string& iName, MethPtr iMethod)
 	{
+		new (lua_newuserdata(m_pScriptLua->GetState(), sizeof(MethPtr))) MethPtr(iMethod);
+		lua_pushcclosure(m_pScriptLua->GetState(), &Class::_CallMember<MethPtr>, 1);
+		RawSetField(m_pScriptLua->GetState(), -2, iName.c_str());
 		return *this;
 	}
 
@@ -120,6 +145,9 @@ protected:
 			lua_pop(L, 1);
 
 			_CreateClassTable();
+
+			lua_pushvalue(L, -1);
+			lua_rawsetp(L, LUA_REGISTRYINDEX, Class<T>::GetIdentityKey());
 		}
 		else
 		{
@@ -176,6 +204,27 @@ private:
 		ArgList<typename ConstructorInvoker<T, Ctor>::Arguments, 2> arguments(iL);
 		ConstructorInvoker<T, Ctor>::Call(FullUserData<T>::Construct(iL), arguments);
 		return 1;
+	}
+
+	// proxy for calling member functions
+	template <class MethPtr>
+	static int _CallMember(lua_State* iL)
+	{
+		T* obj = 0;
+
+		// First get the object
+		if (!lua_isnil(iL, 1))
+		{
+			obj = static_cast<T*> (FullUserData<T>::Get(iL, 1)->GetMemoryPtr());
+		}
+
+		// Now, get the function ptr
+		const MethPtr& methPtr = *static_cast<const MethPtr*>(lua_touserdata(iL, lua_upvalueindex(1)));
+
+		// Finally prepare the call
+		ArgList<MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
+		MethodInvoker<MethPtr>::Call(obj, methPtr, arguments);
+		return 0;
 	}
 
 	// destructor proxy method
