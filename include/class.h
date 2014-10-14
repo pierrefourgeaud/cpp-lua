@@ -5,6 +5,7 @@
 #include "helpers/luahelper.h"
 #include "utilities/constructorinvoker.h"
 #include "utilities/methodinvoker.h"
+#include "cpplualib.h"
 #include <string>
 
 namespace CppLua
@@ -62,7 +63,7 @@ private:
 };
 
 template <class T>
-class Class
+class CPPLUA_API Class
 {
 public:
 	Class(ScriptLua* iScriptLua, const std::string& iName)
@@ -103,6 +104,15 @@ protected:
 	{
 		lua_State* L = m_pScriptLua->GetState();
 
+		if (lua_istable(L, -1))
+		{
+			;
+		}
+		else
+		{
+			throw "Bla";
+		}
+
 		RawGetField(L, -1, m_Name.c_str());
 
 		if (lua_isnil(L, -1))
@@ -134,8 +144,11 @@ private:
 
 		// Create the metatable.
 		lua_newtable(L);
+		lua_newtable(L);
 		lua_pushvalue(L, -1);
-		lua_setmetatable(L, -2);
+		lua_setmetatable(L, -3);
+		lua_insert(L, -2);
+		RawSetField(L, -3, m_Name.c_str());
 
 		/// Prepare the metatable with the correct fields.
 		// set __type=m_Name

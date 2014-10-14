@@ -14,9 +14,10 @@ public:
 		std::cout << "TestLua::Constructor()" << std::endl;
 	}
 
-	void MyMethod(int, int, int)
+	void MyMethod(int a, int b, int c)
 	{
-		std::cout << "TestLua::MyMethod()" << std::endl;
+		std::cout << "TestLua::MyMethod(" << 
+			a << ", " << b << ", " << c << ")" << std::endl;
 	}
 
 	void SetA(int a)
@@ -40,17 +41,25 @@ int main()
 {
 	ScriptLua lua;
 
+	lua_getglobal(lua.GetState(), "_G");
+
 	Class<TestLua>(&lua, "TestLua")
 		.Constructor<void (*)()>()
 		.Method("MyMethod", &TestLua::MyMethod)
 		.Property("a", &TestLua::GetA, &TestLua::SetA);
 
-	lua.ExecuteBuffer("print(\"message\")");
+	lua_pop(lua.GetState(), 1);
+
+	lua.ExecuteBuffer(
+		"print(\"message\")"
+		"local num = 3 + 4"
+		"print(num)"
+		);
 	lua.ExecuteBuffer(
 		"local t = TestLua()"
 		"t:MyMethod(1, 2, 3)"
-		"t:a = 3"
-		"local a = t:a"
+		/*"t:a = 3"
+		"local a = t:a"*/
 		);
 	return 0;
 }

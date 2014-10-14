@@ -3,7 +3,15 @@
 
 #if !defined(CPPLUA_API)
 
-# if WINDOWS
+# ifndef ISWINDOWS
+#  if defined(_WIN32) || defined(_WIN64) || \
+	  defined(__WIN32__) || defined(__TOS_WIN__) || \
+	  defined(__WINDOWS__)
+#   define ISWINDOWS
+#  endif
+# endif // !ISWINDOWS
+
+# if defined(ISWINDOWS)
 #  if defined(CPPLUA_EXPORTS)
 #   define CPPLUA_API __declspec(dllexport)
 #  else
