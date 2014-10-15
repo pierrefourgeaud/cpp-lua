@@ -5,6 +5,7 @@
 #include "helpers/luahelper.h"
 #include "utilities/constructorinvoker.h"
 #include "utilities/methodinvoker.h"
+#include "utilities/callmember.h"
 #include "cpplualib.h"
 #include <string>
 
@@ -109,9 +110,28 @@ public:
 		return *this;
 	}
 
+	// Read-Only property
+	template <class Get>
+	Class& Property(const std::string& iName, Get iGet)
+	{
+		_GetProperty(iName, iGet);
+		return *this;
+	}
+
 	template <class Get, class Set>
 	Class& Property(const std::string& iName, Get iGet, Set iSet)
 	{
+		_GetProperty(iName, iGet);
+
+		if (iSet != 0)
+		{
+			lua_State* L = m_pScriptLua->GetState();
+			RawGetField(L, -1, "__propSetter");
+			new (lua_newuserdata(L, sizeof(Set))) Set(iSet);
+			lua_pushcclosure(L, &CallMember<Set>::Method, 1);
+			RawSetField(L, -2, iName.c_str());
+			lua_pop(L, 1);
+		}
 		return *this;
 	}
 
@@ -119,7 +139,7 @@ public:
 	Class& Method(const std::string& iName, MethPtr iMethod)
 	{
 		new (lua_newuserdata(m_pScriptLua->GetState(), sizeof(MethPtr))) MethPtr(iMethod);
-		lua_pushcclosure(m_pScriptLua->GetState(), &Class::_CallMember<MethPtr>, 1);
+		lua_pushcclosure(m_pScriptLua->GetState(), &CallMember<MethPtr>::Method, 1);
 		RawSetField(m_pScriptLua->GetState(), -2, iName.c_str());
 		return *this;
 	}
@@ -197,6 +217,17 @@ private:
 
 	}
 
+	template <class Get>
+	void _GetProperty(const std::string& iName, Get iGet)
+	{
+		lua_State* L = m_pScriptLua->GetState();
+		RawGetField(L, -1, "__propGetter");
+		new (lua_newuserdata(L, sizeof(Get))) Get(iGet);
+		lua_pushcclosure(m_pScriptLua->GetState(), &CallMember<Get>::Method, 1);
+		RawSetField(m_pScriptLua->GetState(), -2, iName.c_str());
+		lua_pop(L, 1);
+	}
+
 	// constructor proxy method
 	template <class Ctor>
 	static int _ConstructorProxy(lua_State* iL)
@@ -204,27 +235,6 @@ private:
 		ArgList<typename ConstructorInvoker<T, Ctor>::Arguments, 2> arguments(iL);
 		ConstructorInvoker<T, Ctor>::Call(FullUserData<T>::Construct(iL), arguments);
 		return 1;
-	}
-
-	// proxy for calling member functions
-	template <class MethPtr>
-	static int _CallMember(lua_State* iL)
-	{
-		T* obj = 0;
-
-		// First get the object
-		if (!lua_isnil(iL, 1))
-		{
-			obj = static_cast<T*> (FullUserData<T>::Get(iL, 1)->GetMemoryPtr());
-		}
-
-		// Now, get the function ptr
-		const MethPtr& methPtr = *static_cast<const MethPtr*>(lua_touserdata(iL, lua_upvalueindex(1)));
-
-		// Finally prepare the call
-		ArgList<MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
-		MethodInvoker<MethPtr>::Call(obj, methPtr, arguments);
-		return 0;
 	}
 
 	// destructor proxy method

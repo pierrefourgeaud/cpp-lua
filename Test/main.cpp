@@ -58,8 +58,9 @@ int main()
 	lua.ExecuteBuffer(
 		"local t = TestLua()"
 		"t:MyMethod(1, 2, 3)"
-		/*"t:a = 3"
-		"local a = t:a"*/
+		"t.a = 3"
+		"local toto = t.a;"
+		"print(toto)"
 		);
 	return 0;
 }

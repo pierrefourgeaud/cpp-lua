@@ -26,6 +26,7 @@ SET ( INCLUDES
 	"${INCLUDES_PATH}/helpers/luahelper.h"
 	
 	"${INCLUDES_PATH}/utilities/arglist.h"
+	"${INCLUDES_PATH}/utilities/callmember.h"
 	"${INCLUDES_PATH}/utilities/luastack.h"
 	"${INCLUDES_PATH}/utilities/constructorinvoker.h"
 	"${INCLUDES_PATH}/utilities/methodinvoker.h"
@@ -48,7 +49,10 @@ source_group ( Helpers FILES
 )
 
 source_group ( Utilities FILES
+	"${INCLUDES_PATH}/utilities/arglist.h"
+	"${INCLUDES_PATH}/utilities/callmember.h"
 	"${INCLUDES_PATH}/utilities/luastack.h"
+	"${INCLUDES_PATH}/utilities/constructorinvoker.h"
 	"${INCLUDES_PATH}/utilities/methodinvoker.h"
 )
 
