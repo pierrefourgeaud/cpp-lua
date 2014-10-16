@@ -27,6 +27,7 @@ SET ( INCLUDES
 	
 	"${INCLUDES_PATH}/utilities/arglist.h"
 	"${INCLUDES_PATH}/utilities/callmember.h"
+	"${INCLUDES_PATH}/utilities/fulluserdata.h"
 	"${INCLUDES_PATH}/utilities/luastack.h"
 	"${INCLUDES_PATH}/utilities/constructorinvoker.h"
 	"${INCLUDES_PATH}/utilities/methodinvoker.h"
@@ -34,6 +35,7 @@ SET ( INCLUDES
 	"${INCLUDES_PATH}/scriptlua.h"
 	"${INCLUDES_PATH}/cpplualib.h"
 	"${INCLUDES_PATH}/class.h"
+	"${INCLUDES_PATH}/enum.h"
 )
 
 SET ( SRCS
@@ -51,6 +53,7 @@ source_group ( Helpers FILES
 source_group ( Utilities FILES
 	"${INCLUDES_PATH}/utilities/arglist.h"
 	"${INCLUDES_PATH}/utilities/callmember.h"
+	"${INCLUDES_PATH}/utilities/fulluserdata.h"
 	"${INCLUDES_PATH}/utilities/luastack.h"
 	"${INCLUDES_PATH}/utilities/constructorinvoker.h"
 	"${INCLUDES_PATH}/utilities/methodinvoker.h"

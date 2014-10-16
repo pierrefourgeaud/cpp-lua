@@ -1,5 +1,5 @@
-#ifndef CPPLUA_UTILITIES_ARGLIST_H
-#define CPPLUA_UTILITIES_ARGLIST_H
+#ifndef CPPLUA_UTILITIES_ARGLIST_H_
+#define CPPLUA_UTILITIES_ARGLIST_H_
 
 #include "../scriptlua.h"
 #include "luastack.h"
@@ -38,4 +38,4 @@ struct ArgList <TypeList <Head, Tail>, StartValue>
 
 } // namespace CppLua
 
-#endif // !CPPLUA_UTILITIES_ARGLIST_H
+#endif // !CPPLUA_UTILITIES_ARGLIST_H_

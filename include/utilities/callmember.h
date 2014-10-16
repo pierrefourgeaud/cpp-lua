@@ -1,5 +1,5 @@
-#ifndef CPPLUA_UTILITIES_CALLMEMBER_H
-#define CPPLUA_UTILITIES_CALLMEMBER_H
+#ifndef CPPLUA_UTILITIES_CALLMEMBER_H_
+#define CPPLUA_UTILITIES_CALLMEMBER_H_
 
 #include "methodinvoker.h"
 
@@ -64,4 +64,4 @@ struct CallMember <MethPtr, void>
 
 } // namespace CppLua
 
-#endif // !CPPLUA_UTILITIES_CALLMEMBER_H
+#endif // !CPPLUA_UTILITIES_CALLMEMBER_H_

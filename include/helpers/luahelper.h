@@ -1,5 +1,5 @@
-#ifndef CPPLUA_HELPERS_LUAHELPER_H
-#define CPPLUA_HELPERS_LUAHELPER_H
+#ifndef CPPLUA_HELPERS_LUAHELPER_H_
+#define CPPLUA_HELPERS_LUAHELPER_H_
 
 extern "C"
 {
@@ -31,4 +31,4 @@ inline void RawGetField(lua_State* iL, int iIndex, const char* iKey)
 
 } // namespace CppLua
 
-#endif // !CPPLUA_HELPERS_LUAHELPER_H
+#endif // !CPPLUA_HELPERS_LUAHELPER_H_

@@ -1,5 +1,5 @@
-#ifndef CPPLUA_UTILITIES_LUASTACK_H
-#define CPPLUA_UTILITIES_LUASTACK_H
+#ifndef CPPLUA_UTILITIES_LUASTACK_H_
+#define CPPLUA_UTILITIES_LUASTACK_H_
 
 #include "../scriptlua.h"
 
@@ -399,4 +399,4 @@ struct LuaStack <const std::string&>
 
 } // namespace CppLua
 
-#endif // !CPPLUA_UTILITIES_LUASTACK_H
+#endif // !CPPLUA_UTILITIES_LUASTACK_H_

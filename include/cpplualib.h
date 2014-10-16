@@ -1,5 +1,5 @@
-#ifndef CPPLUA_CPPLUALIB_H
-#define CPPLUA_CPPLUALIB_H
+#ifndef CPPLUA_CPPLUALIB_H_
+#define CPPLUA_CPPLUALIB_H_
 
 #if !defined(CPPLUA_API)
 
@@ -23,4 +23,4 @@
 
 #endif // !define(CPPLUA_API)
 
-#endif // !CPPLUA_CPPLUALIB_H
+#endif // !CPPLUA_CPPLUALIB_H_

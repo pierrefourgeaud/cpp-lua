@@ -1,5 +1,5 @@
-#ifndef CPPLUA_SCRIPTLUA_H
-#define CPPLUA_SCRIPTLUA_H
+#ifndef CPPLUA_SCRIPTLUA_H_
+#define CPPLUA_SCRIPTLUA_H_
 
 #include "interfaces/iscriptsystem.h"
 #include "cpplualib.h"
@@ -33,4 +33,4 @@ private:
 
 } // namespace CppLua
 
-#endif // !CPPLUA_SCRIPTLUA_H
+#endif // !CPPLUA_SCRIPTLUA_H_

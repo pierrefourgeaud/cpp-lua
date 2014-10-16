@@ -1,12 +1,12 @@
-#ifndef CPPLUA_CLASS_H
-#define CPPLUA_CLASS_H
+#ifndef CPPLUA_CLASS_H_
+#define CPPLUA_CLASS_H_
 
 #include "scriptlua.h"
 #include "helpers/luahelper.h"
 #include "utilities/constructorinvoker.h"
 #include "utilities/methodinvoker.h"
 #include "utilities/callmember.h"
-#include "cpplualib.h"
+#include "utilities/fulluserdata.h"
 #include <string>
 
 namespace CppLua
@@ -28,59 +28,8 @@ namespace CppLua
 // - Maybe secure everything by adding a protection verifying
 // that the class has been registered previously.
 
-
 template <class T>
-class FullUserData
-{
-public:
-	static void* Construct(lua_State* iL)
-	{
-		const FullUserData<T>* userData = 
-			new (lua_newuserdata(iL, sizeof(FullUserData<T>))) FullUserData<T>();
-		lua_rawgetp(iL, LUA_REGISTRYINDEX, Class<T>::GetIdentityKey());
-		lua_setmetatable(iL, -2);
-		return userData->GetMemoryPtr();
-	}
-
-	void* GetMemoryPtr() const
-	{
-		return m_Ptr;
-	}
-
-	static FullUserData* Get(lua_State* iL, int iIndex)
-	{
-		FullUserData* data = 0;
-		// Make sure we have a userdata.
-		if (lua_isuserdata(iL, iIndex))
-		{
-			// Recursive with parent ?
-			// Add some security
-			data = static_cast<FullUserData*>(lua_touserdata(iL, iIndex));
-		}
-
-		return data;
-	}
-
-private:
-	FullUserData(const FullUserData<T>&);
-	FullUserData<T> operator=(const FullUserData<T>&);
-
-	FullUserData()
-	{
-		m_Ptr = &m_Memory[0];
-	}
-
-	~FullUserData()
-	{
-		reinterpret_cast<T*>(m_Ptr)->~T();
-	}
-
-	char  m_Memory[sizeof(T)];
-	void* m_Ptr;
-};
-
-template <class T>
-class CPPLUA_API Class
+class Class
 {
 public:
 	static const void* GetIdentityKey()
@@ -149,14 +98,7 @@ protected:
 	{
 		lua_State* L = m_pScriptLua->GetState();
 
-		if (lua_istable(L, -1))
-		{
-			;
-		}
-		else
-		{
-			throw "Bla";
-		}
+		// TODO Verification for lua_istable
 
 		RawGetField(L, -1, m_Name.c_str());
 
@@ -223,8 +165,8 @@ private:
 		lua_State* L = m_pScriptLua->GetState();
 		RawGetField(L, -1, "__propGetter");
 		new (lua_newuserdata(L, sizeof(Get))) Get(iGet);
-		lua_pushcclosure(m_pScriptLua->GetState(), &CallMember<Get>::Method, 1);
-		RawSetField(m_pScriptLua->GetState(), -2, iName.c_str());
+		lua_pushcclosure(L, &CallMember<Get>::Method, 1);
+		RawSetField(L, -2, iName.c_str());
 		lua_pop(L, 1);
 	}
 
@@ -366,4 +308,4 @@ private:
 
 } // namespace CppLua
 
-#endif // !CPPLUA_CLASS_H
+#endif // !CPPLUA_CLASS_H_

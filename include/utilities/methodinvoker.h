@@ -1,5 +1,5 @@
-#ifndef CPPLUA_UTILITIES_METHODINVOKER_H
-#define CPPLUA_UTILITIES_METHODINVOKER_H
+#ifndef CPPLUA_UTILITIES_METHODINVOKER_H_
+#define CPPLUA_UTILITIES_METHODINVOKER_H_
 
 #include "../scriptlua.h"
 #include "arglist.h"
@@ -271,4 +271,4 @@ struct MethodInvoker <RetT(ObjT::*) (ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7, A
 
 } // namespace CppLua
 
-#endif // !CPPLUA_UTILITIES_METHODINVOKER_H
+#endif // !CPPLUA_UTILITIES_METHODINVOKER_H_
