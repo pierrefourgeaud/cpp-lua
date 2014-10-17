@@ -2,6 +2,7 @@
 #define CPPLUA_UTILITIES_LUASTACK_H_
 
 #include "../scriptlua.h"
+#include "fulluserdata.h"
 
 extern "C"
 {
@@ -394,6 +395,21 @@ struct LuaStack <const std::string&>
 		size_t len;
 		const char* str = luaL_checklstring(iL, iIndex, &len);
 		return std::string(str, len);
+	}
+};
+
+// Pointer
+template <class T>
+struct LuaStack <T*>
+{
+	static void Push(lua_State* iL, T* iPtr)
+	{
+		FullUserData<T>::PushPtr(iL, iPtr);
+	}
+
+	static const T* Get(lua_State* iL, int iIndex)
+	{
+		return FullUserData<T>::Get(iL, iIndex);
 	}
 };
 

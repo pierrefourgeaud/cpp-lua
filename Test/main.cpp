@@ -64,6 +64,10 @@ int main()
 
 	lua_pop(lua.GetState(), 1);
 
+	TestLua toto;
+	toto.SetA(42);
+	lua.SetGlobal("Toto", &toto);
+
 	lua.ExecuteBuffer(
 		"print(\"message\")"
 		"local num = 3 + 4"
@@ -77,6 +81,7 @@ int main()
 		"print(toto)"
 		"print(TestEnum.val1)"
 		"print(TestEnum.val2)"
+		"print(Toto.a)"
 		);
 	return 0;
 }

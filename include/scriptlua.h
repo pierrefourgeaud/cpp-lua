@@ -3,6 +3,7 @@
 
 #include "interfaces/iscriptsystem.h"
 #include "cpplualib.h"
+#include "utilities/luastack.h"
 
 extern "C"
 {
@@ -20,6 +21,13 @@ public:
 
 	bool ExecuteFile( const char* iFileName );
 	bool ExecuteBuffer( const char* iBuffer );
+
+	template <class T>
+	void SetGlobal(const char* iName, T iValue)
+	{
+		LuaStack<T>::Push(GetState(), iValue);
+		lua_setglobal(GetState(), iName);
+	}
 
 	lua_State* GetState() const;
 

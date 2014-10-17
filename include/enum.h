@@ -65,8 +65,6 @@ private:
 			lua_pop(L, 1);
 
 			_CreateEnumTable();
-
-
 		}
 		else
 		{

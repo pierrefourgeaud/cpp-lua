@@ -41,9 +41,28 @@ public:
 		return data;
 	}
 
+	static void PushPtr(lua_State* iL, T* iPtr)
+	{
+		if (iPtr)
+		{
+			new (lua_newuserdata(iL, sizeof (FullUserData<T>))) FullUserData<T>(iPtr);
+			lua_rawgetp(iL, LUA_REGISTRYINDEX, Class<T>::GetIdentityKey());
+			lua_setmetatable(iL, -2);
+		}
+		else
+		{
+			lua_pushnil(iL);
+		}
+	}
+
 private:
 	FullUserData(const FullUserData<T>&);
 	FullUserData<T> operator=(const FullUserData<T>&);
+
+	explicit FullUserData(T* iPtr)
+		: m_Ptr(iPtr)
+	{
+	}
 
 	FullUserData()
 	{
