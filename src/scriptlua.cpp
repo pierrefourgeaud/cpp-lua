@@ -24,6 +24,16 @@ ScriptLua::~ScriptLua()
 bool
 ScriptLua::ExecuteFile( const char* iFileName )
 {
+	int error = luaL_loadfile(m_pState, iFileName) ||
+		lua_pcall(m_pState, 0, 0, 0);
+
+	if (error)
+	{
+		std::cout << lua_tostring(m_pState, -1) << std::endl;
+		lua_pop(m_pState, 1);  /* pop error message from the stack */
+		return false;
+	}
+
 	return true;
 }
 
@@ -35,7 +45,7 @@ ScriptLua::ExecuteBuffer( const char* iBuffer )
 
 	if (error)
 	{
-		std::cout << lua_tostring(m_pState,-1) << std::endl;
+		std::cout << lua_tostring(m_pState, -1) << std::endl;
 		lua_pop(m_pState, 1);  /* pop error message from the stack */
 		return false;
 	}
