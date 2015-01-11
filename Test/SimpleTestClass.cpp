@@ -2,6 +2,7 @@
 #include <scriptlua.h>
 #include <class.h>
 
+#include <string>
 #include <iostream>
 
 using namespace CppLua;
@@ -32,8 +33,21 @@ public:
 		return m_A;
 	}
 
+	void SetB(const std::string& iStr)
+	{
+		m_B = iStr;
+		std::cout << "TestLua::SetB" << std::endl;
+	}
+
+	std::string GetB() const
+	{
+		std::cout << "TestLua::GetB -> " << m_B << std::endl;
+		return m_B;
+	}
+
 private:
 	int m_A;
+	std::string m_B;
 
 };
 
@@ -46,7 +60,8 @@ int main()
 	Class<TestLua>(&lua, "TestLua")
 		.Constructor<void (*)()>()
 		.Method("MyMethod", &TestLua::MyMethod)
-		.Property("a", &TestLua::GetA, &TestLua::SetA);
+		.Property("a", &TestLua::GetA, &TestLua::SetA)
+		.Property("b", &TestLua::GetB, &TestLua::SetB);
 
 	lua_pop(lua.GetState(), 1);
 
@@ -61,6 +76,11 @@ int main()
 		"local toto = t.a;"
 		"print(toto)"
 		"print(Toto.a)"
+		"local str = \"My string\""
+		"t.b = str;"
+		"print(t.b)"
+		"t.b = \"My temporary string\""
+		"print(t.b)"
 		);
 	return 0;
 }

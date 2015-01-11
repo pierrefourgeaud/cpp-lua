@@ -36,6 +36,40 @@ struct ArgList <TypeList <Head, Tail>, StartValue>
 	{}
 };
 
+template <class Head, class Tail, int StartValue>
+struct ArgList <TypeList <Head&, Tail>, StartValue>
+{
+	Head                         m_Head;
+	ArgList <Tail, StartValue+1> m_Tail;
+
+	ArgList(const Head& iHead, const ArgList<Tail, StartValue>& iTail)
+		: m_Head(iHead)
+		, m_Tail(iTail)
+	{}
+
+	ArgList(lua_State* iL)
+		: m_Head(LuaStack<Head>::Get(iL, StartValue))
+		, m_Tail(ArgList<Tail, StartValue + 1>(iL))
+	{}
+};
+
+template <class Head, class Tail, int StartValue>
+struct ArgList <TypeList <const Head&, Tail>, StartValue>
+{
+	Head                         m_Head;
+	ArgList <Tail, StartValue+1> m_Tail;
+
+	ArgList(const Head& iHead, const ArgList<Tail, StartValue>& iTail)
+		: m_Head(iHead)
+		, m_Tail(iTail)
+	{}
+
+	ArgList(lua_State* iL)
+		: m_Head(LuaStack<Head>::Get(iL, StartValue))
+		, m_Tail(ArgList<Tail, StartValue + 1>(iL))
+	{}
+};
+
 } // namespace CppLua
 
 #endif // !CPPLUA_UTILITIES_ARGLIST_H_
