@@ -79,6 +79,10 @@ add_library(
 add_dependencies( CppLua lua )
 target_link_libraries( CppLua lua ) 
 
+set(${PROJECT_NAME}_INCLUDE_DIRS ${INCLUDES_PATH}
+							     ${LUALIB_PATH}/src
+    CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+
 # ------------ Options -----------
 OPTION( _TESTS "Compile test solutions." OFF )
 
