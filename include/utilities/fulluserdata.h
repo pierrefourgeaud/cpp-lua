@@ -9,6 +9,8 @@ extern "C"
 namespace CppLua
 {
 
+template <class T> class Class;
+
 template <class T>
 class FullUserData
 {
@@ -27,7 +29,7 @@ public:
 		return m_Ptr;
 	}
 
-	static FullUserData* Get(lua_State* iL, int iIndex)
+	static FullUserData* GetUserData(lua_State* iL, int iIndex)
 	{
 		FullUserData* data = 0;
 		// Make sure we have a userdata.
@@ -39,6 +41,14 @@ public:
 		}
 
 		return data;
+	}
+
+	static T* Get(lua_State* iL, int iIndex)
+	{
+		FullUserData* data = FullUserData<T>::GetUserData(iL, iIndex);
+
+		if (!data) { return nullptr; }
+		return static_cast<T*>(data->GetMemoryPtr());
 	}
 
 	static void PushPtr(lua_State* iL, T* iPtr)

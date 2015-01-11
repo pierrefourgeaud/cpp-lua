@@ -1,7 +1,6 @@
 
 #include <scriptlua.h>
 #include <class.h>
-#include <enum.h>
 
 #include <iostream>
 
@@ -38,12 +37,6 @@ private:
 
 };
 
-enum TestEnum {
-	TestEnum_1,
-	TestEnum_2,
-	TestEnum_3
-};
-
 int main()
 {
 	ScriptLua lua;
@@ -57,30 +50,16 @@ int main()
 
 	lua_pop(lua.GetState(), 1);
 
-	Enum<TestEnum>(&lua, "TestEnum")
-		.Value("val1", TestEnum::TestEnum_1)
-		.Value("val2", TestEnum::TestEnum_2)
-		.Value("val3", TestEnum::TestEnum_3);
-
-	lua_pop(lua.GetState(), 1);
-
 	TestLua toto;
 	toto.SetA(42);
 	lua.SetGlobal("Toto", &toto);
 
-	lua.ExecuteBuffer(
-		"print(\"message\")"
-		"local num = 3 + 4"
-		"print(num)"
-		);
 	lua.ExecuteBuffer(
 		"local t = TestLua()"
 		"t:MyMethod(1, 2, 3)"
 		"t.a = 3"
 		"local toto = t.a;"
 		"print(toto)"
-		"print(TestEnum.val1)"
-		"print(TestEnum.val2)"
 		"print(Toto.a)"
 		);
 	return 0;

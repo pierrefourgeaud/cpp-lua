@@ -81,7 +81,7 @@ private:
 
 	static int _GetValue(lua_State* iL)
 	{
-		T* val = FullUserData<T>::Get(L, 1);
+		T* val = FullUserData<T>::Get(iL, 1);
 
 		return 1;
 	}

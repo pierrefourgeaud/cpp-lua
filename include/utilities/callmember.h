@@ -12,7 +12,7 @@
 namespace CppLua
 {
 
-template <class MethPtr, typename ReturnType = MethodInvoker<MethPtr>::ReturnType>
+template <class MethPtr, class ReturnType = typename MethodInvoker<MethPtr>::ReturnType>
 struct CallMember
 {
 	typedef typename MethodInvoker<MethPtr>::ClassType T;
@@ -24,14 +24,14 @@ struct CallMember
 		// First get the object
 		if (!lua_isnil(iL, 1))
 		{
-			obj = static_cast<T*> (FullUserData<T>::Get(iL, 1)->GetMemoryPtr());
+			obj = FullUserData<T>::Get(iL, 1);
 		}
 
 		// Now, get the function ptr
 		const MethPtr& methPtr = *static_cast<const MethPtr*>(lua_touserdata(iL, lua_upvalueindex(1)));
 
 		// Finally prepare the call
-		ArgList<MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
+		ArgList<typename MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
 		LuaStack<ReturnType>::Push(iL, MethodInvoker<MethPtr>::Call(obj, methPtr, arguments));
 		return 1;
 	}
@@ -49,14 +49,14 @@ struct CallMember <MethPtr, void>
 		// First get the object
 		if (!lua_isnil(iL, 1))
 		{
-			obj = static_cast<T*> (FullUserData<T>::Get(iL, 1)->GetMemoryPtr());
+			obj = FullUserData<T>::Get(iL, 1);
 		}
 
 		// Now, get the function ptr
 		const MethPtr& methPtr = *static_cast<const MethPtr*>(lua_touserdata(iL, lua_upvalueindex(1)));
 
 		// Finally prepare the call
-		ArgList<MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
+		ArgList<typename MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
 		MethodInvoker<MethPtr>::Call(obj, methPtr, arguments);
 		return 0;
 	}

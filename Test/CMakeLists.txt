@@ -1,24 +1,28 @@
 
-SET ( INCLUDES_TEST
-)
+include_directories( "${INCLUDES_PATH}" )
 
-SET ( SRCS_TEST
-	"main.cpp"
-)
+link_directories( "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}" )
 
-include_directories(
-	"${INCLUDES_PATH}"
-)
+# SimpleTestExec
+add_executable( SimpleTestExec "SimpleTestExec.cpp" )
 
-link_directories(
-	"${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}"
-)
+add_dependencies( SimpleTestExec CppLua )
+target_link_libraries( SimpleTestExec CppLua )
 
-add_executable(
-	SimpleTest
-	${INCLUDES_TEST}
-	${SRCS_TEST}
-)
+# SimpleTestClass
+add_executable( SimpleTestClass "SimpleTestClass.cpp" )
 
-add_dependencies( SimpleTest CppLua )
-target_link_libraries( SimpleTest CppLua )
+add_dependencies( SimpleTestClass CppLua )
+target_link_libraries( SimpleTestClass CppLua )
+
+# SimpleTestEnum
+add_executable( SimpleTestEnum "SimpleTestEnum.cpp" )
+
+add_dependencies( SimpleTestEnum CppLua )
+target_link_libraries( SimpleTestEnum CppLua )
+
+# TestEncapsulation
+add_executable( TestEncapsulation "TestEncapsulation.cpp" )
+
+add_dependencies( TestEncapsulation CppLua )
+target_link_libraries( TestEncapsulation CppLua )

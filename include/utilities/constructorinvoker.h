@@ -27,7 +27,7 @@ struct ConstructorInvoker <T, void (*)(ARG1)>
 
 	static T* Call(void* iMemory, ArgList<Arguments, 2> iArgs)
 	{
-		return new (iMemory) T(iArgs.hd);
+		return new (iMemory) T(iArgs.m_Head);
 	}
 };
 

@@ -407,7 +407,7 @@ struct LuaStack <T*>
 		FullUserData<T>::PushPtr(iL, iPtr);
 	}
 
-	static const T* Get(lua_State* iL, int iIndex)
+	static T* Get(lua_State* iL, int iIndex)
 	{
 		return FullUserData<T>::Get(iL, iIndex);
 	}
