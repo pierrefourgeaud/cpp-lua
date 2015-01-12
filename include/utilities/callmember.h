@@ -2,6 +2,7 @@
 #define CPPLUA_UTILITIES_CALLMEMBER_H_
 
 #include "methodinvoker.h"
+#include <type_traits>
 
 /*
 * Need to use a trick because Method templates cannot
@@ -32,7 +33,8 @@ struct CallMember
 
 		// Finally prepare the call
 		ArgList<typename MethodInvoker<MethPtr>::Arguments, 2> arguments(iL);
-		LuaStack<ReturnType>::Push(iL, MethodInvoker<MethPtr>::Call(obj, methPtr, arguments));
+		// LuaStack<ReturnType>::Push(iL, MethodInvoker<MethPtr>::Call(obj, methPtr, arguments));
+		Type<ReturnType, std::is_enum<ReturnType>::value>::Push(iL, MethodInvoker<MethPtr>::Call(obj, methPtr, arguments));
 		return 1;
 	}
 };

@@ -22,6 +22,12 @@ template <class T>
 class Enum
 {
 public:
+	static const void* GetIdentityKey()
+	{
+		static char key;
+		return &key;
+	}
+	
 	Enum(ScriptLua* iScriptLua, const std::string& iName)
 		: m_pScriptLua(iScriptLua)
 		, m_Name(iName)
@@ -39,8 +45,6 @@ public:
 		lua_State* L = m_pScriptLua->GetState();
 
 		RawGetField(L, -1, "__values");
-		// new (lua_newuserdata(L, sizeof(T))) T(iValue);
-		// pushcclosure
 		LuaStack<int>::Push(L, iValue);
 		RawSetField(L, -2, iName.c_str());
 		lua_pop(L, 1);
@@ -65,6 +69,9 @@ private:
 			lua_pop(L, 1);
 
 			_CreateEnumTable();
+
+			lua_pushvalue(L, -1);
+			lua_rawsetp(L, LUA_REGISTRYINDEX, Enum<T>::GetIdentityKey());
 		}
 		else
 		{
@@ -77,13 +84,6 @@ private:
 	bool _Destroy()
 	{
 		return true;
-	}
-
-	static int _GetValue(lua_State* iL)
-	{
-		T* val = FullUserData<T>::Get(iL, 1);
-
-		return 1;
 	}
 
 	void _CreateEnumTable()

@@ -26,3 +26,9 @@ add_executable( TestEncapsulation "TestEncapsulation.cpp" )
 
 add_dependencies( TestEncapsulation CppLua )
 target_link_libraries( TestEncapsulation CppLua )
+
+# TestEnumArgument
+add_executable( TestEnumArgument "TestEnumArgument.cpp" )
+
+add_dependencies( TestEnumArgument CppLua )
+target_link_libraries( TestEnumArgument CppLua )
